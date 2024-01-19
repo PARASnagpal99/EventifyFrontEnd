@@ -1,0 +1,78 @@
+import { Divider } from 'primereact/divider';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import axios from 'axios';
+import '../Login/login.css';
+
+export default function LoginPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const handleLogin = async () => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            const response = await axios.post('http://localhost:3000/api/v1/user/login', { email, password }, config);
+            const { userId, firstName, lastName} = response.data;
+
+            // Store user details in local storage
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('lastName', lastName);
+            //localStorage.setItem('email', email);
+
+            console.log("Logging in with:", userId, firstName, lastName);
+            navigate('/home');
+        } catch (error) {
+            console.error("Login failed:", error.response.data);
+        }
+    };
+
+    const handleSignUpClick = () => {
+        navigate('/signup');
+    };
+
+    return (
+        <div className="login-page">
+            <div className="login-card">
+                <div className="login-form">
+                    <div className="input-group">
+                        <label>Email</label>
+                        <InputText
+                            id="email"
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="p-inputtext"
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Password</label>
+                        <InputText
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="p-inputtext"
+                        />
+                    </div>
+                    <Button label="Login" icon="pi pi-user" className="p-button-primary" onClick={handleLogin} />
+                </div>
+                <div className="divider-container">
+                    <Divider layout="vertical">
+                        <b>OR</b>
+                    </Divider>
+                </div>
+                <div className="signup-section">
+                    <Button label="Sign Up" icon="pi pi-user-plus" className="p-button-secondary" onClick={handleSignUpClick} />
+                </div>
+            </div>
+        </div>
+    );
+}
