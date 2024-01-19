@@ -1,0 +1,82 @@
+/* InterestsSection.css */
+
+        
+.interests-section {
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.dropdown-wrapper {
+    flex: 1; /* Takes the remaining space */
+    max-width: 200px; /* Adjust the max-width based on your design */
+}
+
+.p-dropdown-custom {
+    width: 100%; /* Ensures the dropdown takes full width in the wrapper */
+}
+
+.p-button-primary {
+    margin-left: 10px;
+}
+
+.interests-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.p-button-rounded {
+    margin-left: 5px;
+}
+
+.p-button-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.p-card-custom {
+    width: 180px;
+    height: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    text-align: justify;
+}
+
+.card-title {
+    font-size: 16px; /* Adjust the font size as needed */
+    margin-bottom: 10px; /* Add margin for spacing */
+}
+.card-content .p-mr-2 {
+    font-size: 1.5rem; /* Adjust the icon size */
+}

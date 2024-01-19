@@ -4,6 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import axios from 'axios';
 import InterestsSection from '../../components/InterestsSection';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
     const [user, setUser] = useState({
@@ -11,6 +12,10 @@ export default function ProfilePage() {
         lastName: '',
     });
     const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
+    const navigateToSettings = () => {
+        navigate('/settings');
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,7 +59,7 @@ export default function ProfilePage() {
                     <p>Name: {`${user.firstName} ${user.lastName}`}</p>
                      <p>Email: {localStorage.getItem('email')}</p>
                 </div>
-                <Button label="Change Account Details" />
+                <Button label="Change Account Details" onClick={navigateToSettings} />
             </div>
 
             <InterestsSection/>
