@@ -1,32 +1,54 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import SignupPage from './pages/Signup/signup';
-import { PrimeReactProvider } from 'primereact/api';
-import "/node_modules/primeflex/primeflex.css"
-import 'primereact/resources/themes/lara-light-indigo/theme.css';  
-import 'primeflex/primeflex.css';             
-import 'primeicons/primeicons.css';
-import 'primereact/resources/primereact.css';                      
-import LoginPage from './pages/Login/login';
-import Profile from './pages/Profile/profile' ;
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignupPage from "./pages/Signup/signup";
+import { PrimeReactProvider } from "primereact/api";
+import LoginPage from "./pages/Login/login";
+import Profile from "./pages/Profile/profile";
 
-function Home() {
-  return <h1>Hello world</h1>;
-}
+import Home from "./pages/Home";
+import Setting from "./pages/Setting";
+import SingleEvent from "./pages/SingleEvent";
+import PageNotFound from "./pages/PageNotFound";
+import ContextProvider from "./context/ContextProvider";
+
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import NavBar from "./components/NavBar";
+import { useState } from "react";
 
 function App() {
+  const [city, setCity] = useState(null);
+  const [interest, setInterest] = useState(null);
+  const [eventData, setEventData] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
+
   return (
     <>
-    <PrimeReactProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/profile" element={<Profile/>}/>
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </BrowserRouter>
-    </PrimeReactProvider>
+      <ContextProvider.Provider
+        value={{
+          city,
+          interest,
+          setCity,
+          setInterest,
+          eventData,
+          setEventData,
+          isLoading,
+          setIsloading,
+        }}
+      >
+        <PrimeReactProvider>
+          <BrowserRouter>
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/setting" element={<Setting />} />
+              <Route path="/event/:eventId" element={<SingleEvent />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </PrimeReactProvider>
+      </ContextProvider.Provider>
     </>
   );
 }
