@@ -17,21 +17,9 @@ const EventsContainer = styled.div`
 `;
 
 const Events = () => {
-  // const [data,setData] = useState([]);
-  // const [isLoading,setIsloading] = useState(true);
 
   const {eventData,isLoading} = useContext(ContextProvider);
 
-  // useEffect(() =>{
-  //   const fetchData = async()=>{
-  //     const response = await fetch('http://localhost:3000/api/v1/events/');
-  //     const res = await response.json();
-  //     setData(res);
-  //     // console.log(res);
-  //     setIsloading(false);
-  //   }
-  //   fetchData();
-  // },[]);
 
   if(isLoading){
     console.log('Loading events');

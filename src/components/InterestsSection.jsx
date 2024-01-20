@@ -23,6 +23,7 @@ const hardcodedInterests = [
 const InterestsSection = () => {
     const [userInterests, setUserInterests] = useState([]);
     const [selectedInterest, setSelectedInterest] = useState(null);
+    const userId = JSON.parse(localStorage.getItem('user')).userId;
     const toast = useRef(null);
 
     useEffect(() => {
@@ -31,7 +32,14 @@ const InterestsSection = () => {
 
     const fetchUserInterests = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/user/userInterest/${localStorage.getItem('userId')}`);
+            const response = await axios.get(`http://localhost:3000/api/v1/user/userInterest/${userId}`,{
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: `Bearer ${JSON.parse(
+                    localStorage.getItem("auth")
+                  )}`,
+                },
+              });
             setUserInterests(response.data || []);
         } catch (error) {
             console.error('Error fetching user interests:', error);
@@ -40,7 +48,6 @@ const InterestsSection = () => {
 
     const addInterest = async () => {
         try {
-            const userId = localStorage.getItem('userId');
             const apiUrl = `http://localhost:3000/api/v1/user/addInterest/${userId}`;
 
             if (!selectedInterest || !selectedInterest.label) {
@@ -50,7 +57,14 @@ const InterestsSection = () => {
 
             const response = await axios.put(apiUrl, {
                 interest: selectedInterest.label
-            });
+            },{
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: `Bearer ${JSON.parse(
+                    localStorage.getItem("auth")
+                  )}`,
+                },
+              });
 
             if (response.status === 200) {
                 fetchUserInterests();
@@ -61,7 +75,17 @@ const InterestsSection = () => {
                     detail: `Added interest: ${selectedInterest.label}`,
                     life: 3000,
                 });
-            } else {
+            }else if(response.status === 202){
+                console.log("Interest already exists")
+                toast.current.show({
+                    severity: 'warning',
+                    summary: 'Interset Already Exists',
+                    detail: `Warning Interset Already Exists: ${selectedInterest.label}`,
+                    life: 3000,
+                });
+            } 
+            else {
+                console.log("Interest already exists222222")
                 console.error('Error adding interest. API response:', response.data);
                 toast.current.show({
                     severity: 'error',
@@ -83,10 +107,18 @@ const InterestsSection = () => {
     };
 
     const removeInterest = async (interestToRemove) => {
+        console.log(interestToRemove)
         try {
-            await axios.post('YOUR_BACKEND_API_URL/removeInterest', {
+            await axios.put(`http://localhost:3000/api/v1/user/removeInterest/${userId}`, {
                 interest: interestToRemove,
-            });
+            },{
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: `Bearer ${JSON.parse(
+                    localStorage.getItem("auth")
+                  )}`,
+                },
+              });
 
             fetchUserInterests();
 

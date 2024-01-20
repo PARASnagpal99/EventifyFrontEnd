@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ContextProvider from "../context/ContextProvider";
 
@@ -121,6 +121,13 @@ const cities = [
 // ];
 
 const NavBar = () => {
+
+  const auth = localStorage.getItem("user");
+  const navigate = useNavigate();
+  if (!auth) {
+    navigate("/login");
+  }
+
   const [showMenu, setShowMenu] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedInterest, setSelectedInterest] = useState(null);
@@ -147,6 +154,8 @@ const NavBar = () => {
 
   const logout = () => {
     console.log("Logout");
+    localStorage.clear();
+    navigate("/login")
   };
 
   const onChangeCity = (event) => {
@@ -168,7 +177,14 @@ const NavBar = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/events/search/eventByName?query=${searchTerm}`
+        `http://localhost:3000/api/v1/events/search/eventByName?query=${searchTerm}`,{
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("auth")
+            )}`,
+          },
+        }
       );
       const data = await response.json();
       setEventData(data);
@@ -187,7 +203,14 @@ const NavBar = () => {
     const fetchInterest = async () => {
       const userId = "65aa52fcf64c89c36f2b3481";
       const response = await fetch(
-        `http://localhost:3000/api/v1/user/userInterest/${userId}`
+        `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("auth")
+            )}`,
+          },
+        }
       );
       const interests = await response.json();
       console.log(interests);
