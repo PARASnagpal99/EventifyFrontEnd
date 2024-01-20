@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
   const navigateToSettings = () => {
-    navigate("/settings");
+    navigate("/setting");
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function ProfilePage() {
         <h2>Profile</h2>
         <div className="user-info">
           <p>Name: {`${user.firstName} ${user.lastName}`}</p>
-          <p>Email: {localStorage.getItem("email")}</p>
+          <p>Email: {JSON.parse(localStorage.getItem("user")).email || ""}</p>
         </div>
         <Button label="Change Account Details" onClick={navigateToSettings} />
       </div>

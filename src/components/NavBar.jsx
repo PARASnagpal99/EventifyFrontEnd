@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RxAvatar } from "react-icons/rx";
 import { FcCancel } from "react-icons/fc";
 import styled from "styled-components";
-import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -40,12 +39,12 @@ const Select = styled(Dropdown)`
   width: 200px;
 `;
 
-const SubmitButton = styled(Button)`
-  width: 150px;
-  height: 40px;
-  font-size: 16px;
-  margin-left: 10px;
-`;
+// const SubmitButton = styled(Button)`
+//   width: 150px;
+//   height: 40px;
+//   font-size: 16px;
+//   margin-left: 10px;
+// `;
 
 const AvatarContainer = styled.div`
   position: relative;
@@ -122,23 +121,24 @@ const cities = [
 
 const NavBar = () => {
 
-  const auth = localStorage.getItem("user");
-  const navigate = useNavigate();
-  if (!auth) {
-    navigate("/login");
-  }
+  // const auth = localStorage.getItem("user");
+  // const navigate = useNavigate();
+  // if (!auth) {
+  //   navigate("/login");
+  // }
 
   const [showMenu, setShowMenu] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedInterest, setSelectedInterest] = useState(null);
   const [userInterset, setUserInterest] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPageUrl = location.pathname + location.search;
   console.log(currentPageUrl);
 
   console.log(selectedCity, selectedInterest);
 
-  const { city, interest, setCity, setInterest, setEventData } =
+  const {setCity, setInterest, setEventData } =
     useContext(ContextProvider);
 
   const clearFilter = () => {
@@ -222,7 +222,9 @@ const NavBar = () => {
       setUserInterest(interestArray);
       localStorage.setItem("userInterest", JSON.stringify(interestArray));
     };
-    fetchInterest();
+    
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    auth && fetchInterest();
   }, []);
 
   return (
@@ -265,9 +267,9 @@ const NavBar = () => {
               <Link to="/setting">Settings</Link>
             </li>
             <li>
-              <Link onClick={logout} to="/">
+              <button onClick={logout}>
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </DropdownMenu>
