@@ -9,6 +9,7 @@ import Setting from "./pages/Setting";
 import SingleEvent from "./pages/SingleEvent";
 import PageNotFound from "./pages/PageNotFound";
 import ContextProvider from "./context/ContextProvider";
+import PrivateComponent from "./components/PrivateComponent";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import NavBar from "./components/NavBar";
@@ -38,13 +39,15 @@ function App() {
           <BrowserRouter>
             <NavBar />
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/setting" element={<Setting />} />
-              <Route path="/event/:eventId" element={<SingleEvent />} />
-              <Route path="*" element={<PageNotFound />} />
+              <Route element={<PrivateComponent />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/setting" element={<Setting />} />
+                <Route path="/event/:eventId" element={<SingleEvent />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/login" element={<LoginPage />} />
             </Routes>
           </BrowserRouter>
         </PrimeReactProvider>

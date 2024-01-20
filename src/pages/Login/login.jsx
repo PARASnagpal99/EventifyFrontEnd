@@ -13,22 +13,24 @@ export default function LoginPage() {
 
     const handleLogin = async () => {
         try {
+            console.log(email, password);
             const config = {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             };
             const response = await axios.post('http://localhost:3000/api/v1/user/login', { email, password }, config);
-            const { userId, firstName, lastName} = response.data;
+            const { user,auth} = response.data;
 
             // Store user details in local storage
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('firstName', firstName);
-            localStorage.setItem('lastName', lastName);
-            //localStorage.setItem('email', email);
-
-            console.log("Logging in with:", userId, firstName, lastName);
-            navigate('/home');
+            console.log(user,auth);
+            if(auth){
+                localStorage.setItem('user', JSON.stringify(user))
+                localStorage.setItem('auth', JSON.stringify(auth));
+                navigate('/');
+            }else{
+                navigate("/login");
+            }
         } catch (error) {
             console.error("Login failed:", error.response.data);
         }
