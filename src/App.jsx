@@ -12,6 +12,9 @@ import ContextProvider from "./context/ContextProvider";
 import PrivateComponent from "./components/PrivateComponent";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 import NavBar from "./components/NavBar";
 import { useState } from "react";
 
