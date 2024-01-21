@@ -150,6 +150,7 @@ const NavBar = () => {
   const logout = () => {
     console.log("Logout");
     localStorage.clear();
+    setShowMenu(!showMenu);
   };
 
   const onChangeCity = (event) => {
@@ -256,10 +257,10 @@ const NavBar = () => {
         <DropdownMenu showMenu={showMenu}>
           <ul>
             <li>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile" onClick={()=>{setShowMenu(!showMenu)}}>Profile</Link>
             </li>
             <li>
-              <Link to="/setting">Settings</Link>
+              <Link to="/setting" onClick={()=>{setShowMenu(!showMenu)}} >Settings</Link>
             </li>
             <li>
               <Link onClick={logout} to="/login">
