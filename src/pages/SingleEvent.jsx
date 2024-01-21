@@ -111,6 +111,7 @@ const SingleEvent = () => {
     );
     const result = await response.json();
     console.log(result);
+    alert("Registration done");
   };
 
   if (isLoading) {
