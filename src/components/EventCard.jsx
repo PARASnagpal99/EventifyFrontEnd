@@ -65,6 +65,7 @@ const EventCard = ({ event_id, avatarSrc, title, description,isRegister }) => {
           label={isRegister?"Already Registered":"Register"}
           icon="pi pi-check"
           onClick={onRegisterClick}
+          // disabled={isRegister?true:false}
         />
       </Row>
     </CardContainer>
