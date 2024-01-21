@@ -57,25 +57,34 @@ const UserListItem = styled.div`
 // Main component
 const SingleEvent = () => {
   const [event, setEvent] = useState();
-  const { event_id,isRegister } = useParams();
+  const { event_id, isRegister } = useParams();
   const [isLoading, setIsloading] = useState(true);
-  console.log(event_id);
+  console.log(isRegister);
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
 
   useEffect(() => {
     const fetchEventById = async () => {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/events/getEventBy/${event_id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
-          },
+      try {
+        const response = await fetch(`http://localhost:3000/api/v1/events/getEventBy/${event_id}`, {
+         
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
+        },
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      );
-      const data = await response.json();
-      setEvent(data);
-      console.log(data);
-      setIsloading(false);
+    
+        const data = await response.json();
+        setEvent(data);
+        console.log(data);
+        setIsloading(false);
+      } catch (error) {
+        console.error('Error:', error.message);
+        throw error; // or handle the error as needed
+      }
     };
     fetchEventById();
   }, []);
@@ -120,8 +129,13 @@ const SingleEvent = () => {
           />
           <h2>{event.event_name}</h2>
           <p>{event.event_description}</p>
+          <p>This is  {isRegister}</p>
           <div className="card flex justify-content-center">
-            <Button label={isRegister?"Already Registered":"Register"} onClick={handleRegisteruser} disabled={isRegister} />
+            <Button
+              label={isRegister==="true" ? "Already Registered" : "Register"}
+              onClick={handleRegisteruser}
+              disabled={isRegister==="true"?true:false}
+            />
           </div>
         </CardContainer>
 
