@@ -121,11 +121,6 @@ const cities = [
 
 const NavBar = () => {
 
-  // const auth = localStorage.getItem("user");
-  // const navigate = useNavigate();
-  // if (!auth) {
-  //   navigate("/login");
-  // }
 
   const [showMenu, setShowMenu] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -201,7 +196,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const fetchInterest = async () => {
-      const userId = "65aa52fcf64c89c36f2b3481";
+      const userId = JSON.parse(localStorage.getItem("user"));
       const response = await fetch(
         `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
           headers: {
@@ -222,7 +217,7 @@ const NavBar = () => {
       setUserInterest(interestArray);
       localStorage.setItem("userInterest", JSON.stringify(interestArray));
     };
-    
+
     const auth = JSON.parse(localStorage.getItem("auth"));
     auth && fetchInterest();
   }, []);
