@@ -45,7 +45,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/setting" element={<Setting />} />
                 <Route path="/event/:eventId" element={<SingleEvent />} />
-                <Route path="/singlepage" element={<SingleEvent />} />
+                <Route path="/event/register/:event_id" element={<SingleEvent />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
                 <Route path="/signup" element={<SignupPage />} />

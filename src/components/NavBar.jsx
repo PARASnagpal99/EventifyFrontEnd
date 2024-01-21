@@ -196,6 +196,7 @@ const NavBar = () => {
   useEffect(() => {
     const fetchInterest = async () => {
       const userId = JSON.parse(localStorage.getItem("user")).userId;
+      console.log(userId)
       const response = await fetch(
         `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
           headers: {

@@ -31,10 +31,11 @@ const Events = () => {
         {eventData.map((item) => (
           <EventCard
             key={item._id} // Make sure to provide a unique key for each item in the array
+            event_id = {item.event_id}
             avatarSrc="path/to/avatar.jpg"
             title={item.event_name}
             description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Event ${item.event_description}`}
-            onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
+            // onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
           />
         ))}
       </EventsContainer>

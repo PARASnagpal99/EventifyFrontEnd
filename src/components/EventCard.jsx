@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { FcMusic } from "react-icons/fc";
 import { FcStart } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -39,7 +40,12 @@ const RegisterButton = styled(Button)`
   margin-left: auto;
 `;
 
-const EventCard = ({ avatarSrc, title, description, onRegisterClick }) => {
+const EventCard = ({ event_id, avatarSrc, title, description }) => {
+  const navigate = useNavigate();
+  const onRegisterClick = ()=>{
+    navigate(`event/register/${event_id}`);
+  } 
+
   return (
     <CardContainer>
       <Row>
