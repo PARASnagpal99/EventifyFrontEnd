@@ -57,7 +57,7 @@ const UserListItem = styled.div`
 // Main component
 const SingleEvent = () => {
   const [event, setEvent] = useState();
-  const { event_id } = useParams();
+  const { event_id,isRegister } = useParams();
   const [isLoading, setIsloading] = useState(true);
   console.log(event_id);
 
@@ -121,7 +121,7 @@ const SingleEvent = () => {
           <h2>{event.event_name}</h2>
           <p>{event.event_description}</p>
           <div className="card flex justify-content-center">
-            <Button label="Register" onClick={handleRegisteruser} />
+            <Button label={isRegister?"Already Registered":"Register"} onClick={handleRegisteruser} disabled={isRegister} />
           </div>
         </CardContainer>
 

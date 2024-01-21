@@ -40,10 +40,10 @@ const RegisterButton = styled(Button)`
   margin-left: auto;
 `;
 
-const EventCard = ({ event_id, avatarSrc, title, description }) => {
+const EventCard = ({ event_id, avatarSrc, title, description,isRegister }) => {
   const navigate = useNavigate();
   const onRegisterClick = ()=>{
-    navigate(`event/register/${event_id}`);
+    navigate(`/event/register/isregister=/${isRegister}/${event_id}`);
   } 
 
   return (
@@ -62,7 +62,7 @@ const EventCard = ({ event_id, avatarSrc, title, description }) => {
       <Row noBorder>
       <h3>Registered By 20+ people</h3>
         <RegisterButton
-          label="Register"
+          label={isRegister?"Already Registered":"Register"}
           icon="pi pi-check"
           onClick={onRegisterClick}
         />

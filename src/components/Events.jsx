@@ -19,6 +19,41 @@ const EventsContainer = styled.div`
 const Events = () => {
 
   const {eventData,isLoading} = useContext(ContextProvider);
+  const [eventIds, setEventIds] = useState(new Set());
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
+
+  const fetchEventIds = async ()=>{
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/user/getEventIdofUser/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers as needed
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const eventIdsArray = await response.json();
+      const eventIdsSet = new Set(eventIdsArray);
+  
+      // Update the state with the new event IDs
+      setEventIds(eventIdsSet);
+      console.log(eventIdsSet);
+      // Optionally log or use the eventIdsSet
+      console.log('Event IDs Set:', eventIdsSet);
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle the error as needed
+      setEventIds(new Set()); // Update state with an empty set in case of an error
+    }
+  }
+
+  useEffect(() => {
+    fetchEventIds();
+  }, []);
 
 
   if(isLoading){
@@ -36,6 +71,7 @@ const Events = () => {
             title={item.event_name}
             description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Event ${item.event_description}`}
             // onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
+            isRegister={eventIds.has(item.event_id)}
           />
         ))}
       </EventsContainer>
