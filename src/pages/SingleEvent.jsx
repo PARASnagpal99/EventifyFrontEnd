@@ -1,9 +1,10 @@
 // Import necessary libraries
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
 import { Button } from "primereact/button";
+import ContextProvider from "../context/ContextProvider";
 
 // Dummy data for the card and user list
 const cardData = {
@@ -57,40 +58,106 @@ const UserListItem = styled.div`
 // Main component
 const SingleEvent = () => {
   const [event, setEvent] = useState();
-  const { event_id, isRegister } = useParams();
+  const { event_id } = useParams();
   const [isLoading, setIsloading] = useState(true);
-  console.log(isRegister);
+  const [registerUser, setRegisterUser] = useState([]);
+  const [friendIds, setFriendIds] = useState(new Set());
+  const [change,setChange] = useState(true);
+
+  const { isRegister, setIsRegister } = useContext(ContextProvider);
+  const [register, setRegister] = useState(isRegister || false);
+  console.log(register);
+
   const userId = JSON.parse(localStorage.getItem("user")).userId;
+
+  const getRegisterUserForEvent = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/events/getUserForEvent/${event_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      if (data.message === "NODATA") {
+        setRegisterUser([]);
+      } else {
+        setRegisterUser(data);
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+      throw error;
+    }
+  };
+
+  const getFriend = async ()=>{
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/user/getUserFriends/${userId}`);
+      const result = await response.json();
+      console.log(result);
+  
+      if (response.ok) {
+        console.log('User friends:', result);
+        const friendIdsSet = new Set(result.friends);
+        setFriendIds(friendIdsSet);
+        // Handle the friendIds as needed
+      } else {
+        console.error('Error fetching user friends:', result.error);
+        // Handle the error accordingly
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle other types of errors
+    }
+  }
+
+  useEffect(() => {
+    getRegisterUserForEvent();
+  }, [isRegister]);
+
+  useEffect(() => {
+    getFriend();
+  },[change])
 
   useEffect(() => {
     const fetchEventById = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/events/getEventBy/${event_id}`, {
-         
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
-        },
-        });
-    
+        const response = await fetch(
+          `http://localhost:3000/api/v1/events/getEventBy/${event_id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("auth")
+              )}`,
+            },
+          }
+        );
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    
+
         const data = await response.json();
         setEvent(data);
-        console.log(data);
+        // console.log(data);
         setIsloading(false);
       } catch (error) {
-        console.error('Error:', error.message);
+        console.error("Error:", error.message);
         throw error; // or handle the error as needed
       }
     };
     fetchEventById();
+    getRegisterUserForEvent();
+    getFriend();
   }, []);
 
   const handleRegisteruser = async () => {
-    const userId = JSON.parse(localStorage.getItem("user")).userId;
     const { event_name, event_description, event_id, event_url } = event;
     console.log(event_name, event_description, event_id, event_url);
     const response = await fetch(
@@ -112,7 +179,45 @@ const SingleEvent = () => {
     const result = await response.json();
     console.log(result);
     alert("Registration done");
+    setIsRegister(true);
+    setRegister(true);
   };
+
+  const handleAddFriend = async (user) => {
+    try {
+      const friendId = user.userId; // Replace with the actual friend's ID
+      const name = user.name; // Replace with the actual friend's name
+      console.log(friendId,name);
+  
+      const response = await fetch(`http://localhost:3000/api/v1/user/addFriend/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ friendId, name }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok && response.message=="Success") {
+        console.log('Friend added successfully');
+        alert('Friend added successfully');
+        // Handle any additional logic here
+      } else {
+        console.error('Error adding friend:', result.error);
+        alert(result.message);
+        // Handle error accordingly
+      }
+      setChange(!change);
+      
+    } catch (error) {
+      console.error('Error:', error.message);
+      // Handle other types of errors
+    }
+  };
+
+  
+  
 
   if (isLoading) {
     return <Spinner />;
@@ -130,12 +235,11 @@ const SingleEvent = () => {
           />
           <h2>{event.event_name}</h2>
           <p>{event.event_description}</p>
-          <p>This is  {isRegister}</p>
           <div className="card flex justify-content-center">
             <Button
-              label={isRegister==="true" ? "Already Registered" : "Register"}
+              label={register ? "Already Registered" : "Register"}
               onClick={handleRegisteruser}
-              disabled={isRegister==="true"?true:false}
+              disabled={register ? true : false}
             />
           </div>
         </CardContainer>
@@ -143,14 +247,22 @@ const SingleEvent = () => {
         {/* Right Side */}
         <UserListContainer>
           <h2>Registered Users</h2>
-          {userList.map((user, index) => (
-            <UserListItem key={index}>
-              <span>{user.name}</span>
-              <div className="card flex justify-content-center">
-                <Button label="Add friend" />
-              </div>
-            </UserListItem>
-          ))}
+          {registerUser && registerUser.length > 0 ? (
+            registerUser.map((user, index) => (
+              <UserListItem key={index}>
+                <span>{user.name}</span>
+                <div className="card flex justify-content-center">
+                  <Button
+                    label={user.userId === userId ? "You" : friendIds.has(user.userId)? "Friend":"Add Friend"}
+                    onClick={()=>{handleAddFriend(user)}}
+                    disabled={user.userId === userId || friendIds.has(user.userId)}
+                  />
+                </div>
+              </UserListItem>
+            ))
+          ) : (
+            <p>No users yet.</p>
+          )}
         </UserListContainer>
       </PageContainer>
     </Container>

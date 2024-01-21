@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { FcMusic } from "react-icons/fc";
 import { FcStart } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import ContextProvider from "../context/ContextProvider";
 
 
 
@@ -42,8 +43,12 @@ const RegisterButton = styled(Button)`
 
 const EventCard = ({ event_id, avatarSrc, title, description,isRegister }) => {
   const navigate = useNavigate();
+  const {setIsRegister} = useContext(ContextProvider);
+
   const onRegisterClick = ()=>{
-    navigate(`/event/register/isregister=/${isRegister}/${event_id}`);
+    setIsRegister(isRegister);
+    console.log(isRegister)
+    navigate(`/event/register/${event_id}`);
   } 
 
   return (

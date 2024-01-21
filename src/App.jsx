@@ -23,6 +23,7 @@ function App() {
   const [interest, setInterest] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [isLoading, setIsloading] = useState(true);
+  const [isRegister,setIsRegister] = useState(false);
   const auth = localStorage.getItem("auth");
 
   return (
@@ -37,6 +38,8 @@ function App() {
           setEventData,
           isLoading,
           setIsloading,
+          isRegister,
+          setIsRegister,
         }}
       >
         <PrimeReactProvider>
@@ -47,7 +50,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/setting" element={<Setting />} />
-                <Route path="/event/register/isregister=/:isRegister/:event_id" element={<SingleEvent />} />
+                <Route path="/event/register/:event_id" element={<SingleEvent />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
                 <Route path="/signup" element={<SignupPage />} />

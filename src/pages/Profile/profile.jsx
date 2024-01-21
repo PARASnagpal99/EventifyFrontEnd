@@ -95,7 +95,7 @@ export default function ProfilePage() {
       const tempEvents = response.data.events;
       setEvents(tempEvents);
       toast.success('Successfully unregistered from the event!', {
-        position: 'bottom-right',
+        position: 'top-right',
         autoClose: 3000, // Set the duration for the toast
         hideProgressBar: false,
         closeOnClick: true,
