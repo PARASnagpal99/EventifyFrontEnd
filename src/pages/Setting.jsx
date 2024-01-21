@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 // Styled Components
@@ -42,8 +42,8 @@ const Button = styled.button`
 // Component
 const Setting = () => {
 
-  const [name, setName] = useState('Ritesh Prajapati');
-  const [email, setEmail] = useState('ritesh@123');
+  const [name, setName] = useState(JSON.parse(localStorage.getItem('user')).firstName + ' ' + JSON.parse(localStorage.getItem('user')).lastName);
+  const [email, setEmail] = useState(JSON.parse(localStorage.getItem('user')).email);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 

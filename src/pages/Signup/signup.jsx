@@ -43,7 +43,7 @@ export default function SignupPage() {
             setErrors(error.response.data.errors || []);
 
             // Show errors using Toast
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Signup failed. Please check the form and try again.' });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: JSON.stringify(error.response.data.error)});
         }
     };
 

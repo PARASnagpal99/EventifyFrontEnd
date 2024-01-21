@@ -37,7 +37,7 @@ export default function LoginPage() {
             console.error("Login failed:", error.response.data);
 
             // Show errors using Toast
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Login failed. Please check your credentials and try again.' });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: JSON.stringify(error.response.data.error) });
         }
     };
 
