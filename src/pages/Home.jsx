@@ -24,7 +24,7 @@ const Home = () => {
   }
 
   const fetchData = async()=>{
-    console.log(localStorage.getItem("auth"));
+    // console.log(localStorage.getItem("auth"));
     const response = await fetch('http://localhost:3000/api/v1/events/',{
       headers: {
         "Content-Type": "application/json",
