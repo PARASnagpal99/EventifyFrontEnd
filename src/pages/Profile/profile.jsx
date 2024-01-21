@@ -6,6 +6,9 @@ import axios from "axios";
 import InterestsSection from "../../components/InterestsSection";
 import { useNavigate } from "react-router-dom";
 import { Card  } from "primereact/card";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function ProfilePage() {
   const [user, setUser] = useState({
@@ -91,10 +94,26 @@ export default function ProfilePage() {
       // Assuming the server responds with an updated list of events after unregistration
       const tempEvents = response.data.events;
       setEvents(tempEvents);
-  
+      toast.success('Successfully unregistered from the event!', {
+        position: 'bottom-right',
+        autoClose: 3000, // Set the duration for the toast
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
       console.log(`Unregister from event with ID ${event_id}`);
     } catch (error) {
       console.error("Error unregistering from event:", error.response.data);
+      toast.error('Error unregistering from the event!', {
+        position: 'bottom-right',
+        autoClose: 3000, // Set the duration for the toast
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
   
@@ -170,6 +189,8 @@ export default function ProfilePage() {
     </Card>
     )}
   </div>
+  <ToastContainer />
     </div>
+
   );
 }
