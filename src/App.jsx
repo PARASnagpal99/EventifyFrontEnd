@@ -20,6 +20,7 @@ function App() {
   const [interest, setInterest] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [isLoading, setIsloading] = useState(true);
+  const auth = localStorage.getItem("auth");
 
   return (
     <>
@@ -37,13 +38,14 @@ function App() {
       >
         <PrimeReactProvider>
           <BrowserRouter>
-            <NavBar />
+            {auth && <NavBar />}
             <Routes>
               <Route element={<PrivateComponent />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/setting" element={<Setting />} />
                 <Route path="/event/:eventId" element={<SingleEvent />} />
+                <Route path="/singlepage" element={<SingleEvent />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
                 <Route path="/signup" element={<SignupPage />} />
