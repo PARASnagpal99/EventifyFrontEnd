@@ -150,7 +150,6 @@ const NavBar = () => {
   const logout = () => {
     console.log("Logout");
     localStorage.clear();
-    navigate("/login")
   };
 
   const onChangeCity = (event) => {
@@ -196,7 +195,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const fetchInterest = async () => {
-      const userId = JSON.parse(localStorage.getItem("user"));
+      const userId = JSON.parse(localStorage.getItem("user")).userId;
       const response = await fetch(
         `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
           headers: {
@@ -262,9 +261,9 @@ const NavBar = () => {
               <Link to="/setting">Settings</Link>
             </li>
             <li>
-              <button onClick={logout}>
+              <Link onClick={logout} to="/login">
                 Logout
-              </button>
+              </Link>
             </li>
           </ul>
         </DropdownMenu>
