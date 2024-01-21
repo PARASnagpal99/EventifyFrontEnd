@@ -225,9 +225,9 @@ const NavBar = () => {
 
   return (
     <NavBarContainer>
-      <Link to="/">
-        <Logo src="./logo.jpeg" alt="Logo" />
-      </Link>
+    <Link to="/">
+       <Logo src="./logo2.jpeg" alt="Logo" style={{ width: '55px', height: '55px' }} />
+     </Link>
       {currentPageUrl === "/" && (
         <CenterSection>
           <SearchInput placeholder="Search" onChange={handleSearch} />
