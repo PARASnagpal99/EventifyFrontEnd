@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Spinner from "../components/Spinner";
 import { Button } from "primereact/button";
 import ContextProvider from "../context/ContextProvider";
+import InterestIdMappingInterest from "../utils/interest"
 
 // Dummy data for the card and user list
 const cardData = {
@@ -149,6 +150,7 @@ const SingleEvent = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setEvent(data);
         setIsloading(false);
         const currentValue = JSON.parse(localStorage.getItem("registeredUser"));
@@ -242,12 +244,16 @@ const SingleEvent = () => {
         {/* Left Side */}
         <CardContainer>
           <img
-            src={cardData.imageUrl}
+            src={event.imageUrl}
             alt="Card"
             style={{ width: "400px", height: "250px" }}
           />
           <h2>{event.event_name}</h2>
+          <hr/>
           <p>{event.event_description}</p>
+          <hr/>
+          <h2>Interest: {InterestIdMappingInterest[event.category_id]}</h2>
+          <hr/>
           <div className="card flex justify-content-center">
             <Button
               label={isregister ? "Already Registered" : "Register"}

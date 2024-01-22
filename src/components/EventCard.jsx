@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { FcMusic } from "react-icons/fc";
 import { FcStart } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContextProvider from "../context/ContextProvider";
 
 
@@ -35,13 +35,24 @@ const Title = styled.h3`
 
 const Description = styled.p`
   margin: 0;
+  text-align: justify;
+  a {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Optional: Make the link bold */
+    margin-left: 5px; /* Optional: Add some spacing between the text and the link */
+  }
+
+  a:hover {
+    text-decoration: underline; /* Add underline on hover */
+  }
 `;
 
 const RegisterButton = styled(Button)`
   margin-left: auto;
 `;
 
-const EventCard = ({ event_id, avatarSrc, title, description,isRegister }) => {
+const EventCard = ({ event_id, avatarSrc, title, description,isRegister,categoryId }) => {
   const navigate = useNavigate();
   const {setIsRegister} = useContext(ContextProvider);
 
@@ -61,11 +72,11 @@ const EventCard = ({ event_id, avatarSrc, title, description,isRegister }) => {
       </Row>
       <Row>
         <Description>
-          {description}
+          {description.substring(0,250).concat('')}<Link to={`/event/register/${event_id}`}>...View Event</Link>
         </Description>
       </Row>
       <Row noBorder>
-      <h3>Registered By 20+ people</h3>
+      <h3>Interest : {categoryId}</h3>
         <RegisterButton
           label={isRegister?"Already Registered":"Register"}
           icon="pi pi-check"
