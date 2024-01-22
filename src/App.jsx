@@ -17,6 +17,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import NavBar from "./components/NavBar";
 import { useState } from "react";
+import WelcomePage from "./pages/Welcome";
 
 function App() {
   const [city, setCity] = useState(null);
@@ -46,6 +47,7 @@ function App() {
           <BrowserRouter>
             {auth && <NavBar />}
             <Routes>
+              <Route path="/welcome" element={<WelcomePage />} />
               <Route element={<PrivateComponent />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />

@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import EventCard from "./EventCard";
 import Spinner from "./Spinner";
 
 import ContextProvider from "../context/ContextProvider";
 
-const CenteredContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
+// const CenteredContainer = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100vh;
+// `;
 
 const EventsContainer = styled.div`
   text-align: center;
@@ -28,7 +28,6 @@ const Events = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // Add any other headers as needed
         },
       });
   
@@ -39,15 +38,13 @@ const Events = () => {
       const eventIdsArray = await response.json();
       const eventIdsSet = new Set(eventIdsArray);
   
-      // Update the state with the new event IDs
       setEventIds(eventIdsSet);
+
       console.log(eventIdsSet);
-      // Optionally log or use the eventIdsSet
       console.log('Event IDs Set:', eventIdsSet);
     } catch (error) {
       console.error('Error:', error.message);
-      // Handle the error as needed
-      setEventIds(new Set()); // Update state with an empty set in case of an error
+      setEventIds(new Set()); 
     }
   }
 
@@ -70,7 +67,7 @@ const Events = () => {
             avatarSrc="path/to/avatar.jpg"
             title={item.event_name}
             description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Event ${item.event_description}`}
-            // onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
+            onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
             isRegister={eventIds.has(item.event_id)}
           />
         ))}
