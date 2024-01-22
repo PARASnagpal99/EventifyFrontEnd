@@ -24,7 +24,7 @@ function App() {
   const [interest, setInterest] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [isLoading, setIsloading] = useState(true);
-  const [isRegister,setIsRegister] = useState(false);
+  const [isRegister,setIsRegister] = useState(true);
   const auth = localStorage.getItem("auth");
 
   return (
