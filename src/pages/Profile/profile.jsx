@@ -48,7 +48,7 @@ export default function ProfilePage() {
           },
         }
       );
-      console.log(eventsResponse.data);
+      //console.log(eventsResponse.data);
       const data = eventsResponse.data ;
       setEvents(data);
 
@@ -141,7 +141,7 @@ export default function ProfilePage() {
     backgroundColor: '#2980b9',
   };
 
-  console.log("events" , events);
+  //console.log("events" , events);
   return (
     <div className="profile-page">
       <div className="profile-box">
@@ -168,7 +168,7 @@ export default function ProfilePage() {
               label="Unregister"
               icon="pi pi-times"
               onClick={() => {
-                console.log("rowData" , rowData.event_id);
+                //console.log("rowData" , rowData.event_id);
                 unregisterEvent(rowData.event_id)
               }}
               className="p-button-danger"
@@ -191,6 +191,5 @@ export default function ProfilePage() {
   </div>
   <ToastContainer />
     </div>
-
   );
 }

@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { toast , ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // Styled Components
 const SettingsContainer = styled.div`
@@ -39,11 +43,10 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-// Component
 const Setting = () => {
 
-  const [name, setName] = useState('Ritesh Prajapati');
-  const [email, setEmail] = useState('ritesh@123');
+  const [name, setName] = useState(JSON.parse(localStorage.getItem('user')).firstName + ' ' + JSON.parse(localStorage.getItem('user')).lastName);
+  const [email, setEmail] = useState(JSON.parse(localStorage.getItem('user')).email);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -52,11 +55,40 @@ const Setting = () => {
   const handleCurrentPasswordChange = (e) => setCurrentPassword(e.target.value);
   const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
 
-  const handleSaveChanges = () => {
-    // Add logic to save changes (e.g., make API calls)
-    console.log('Changes saved!');
+  const handleSaveChanges = async () => {
+    try {
+      const userId = JSON.parse(localStorage.getItem("user")).userId;
+      const token = JSON.parse(localStorage.getItem("auth"));
+      
+      const requestBody = {
+        newPassword: newPassword,
+        oldPassword: currentPassword,
+      };
+  
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+  
+      const response = await axios.put(
+        `http://localhost:3000/api/v1/user/changePassword/${userId}`,
+        requestBody, 
+        {
+          headers: headers,
+        }
+      );
+  
+      const { message } = response.data;
+      //console.log(message);
+      toast.success(message);
+      //console.log('Changes saved!');
+      //navigate('/');
+    } catch (error) {
+      console.error("Error Changing the password ", error.response.data);
+      toast.error("Error changing password");
+    }
   };
-
+  
   const handleDeleteAccount = () => {
     // Add logic to delete user account (e.g., make API calls)
     console.log('Account deleted!');
@@ -90,6 +122,7 @@ const Setting = () => {
       <Button onClick={handleDeleteAccount} style={{ backgroundColor: '#f44336' }}>
         Delete Account
       </Button>
+      <ToastContainer/>
     </SettingsContainer>
   );
 };

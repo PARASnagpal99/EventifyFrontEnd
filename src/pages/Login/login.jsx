@@ -1,5 +1,5 @@
 import { Divider } from 'primereact/divider';
-import { useState, useRef } from 'react';
+import { useState, useRef , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -12,6 +12,14 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const toast = useRef(null);
+
+    useEffect(()=>{
+        const token = localStorage.getItem('auth');
+        if(token){
+         navigate('/');
+        }
+     },[]);
+ 
 
     const handleLogin = async () => {
         try {
@@ -29,15 +37,28 @@ export default function LoginPage() {
             if (auth) {
                 localStorage.setItem('user', JSON.stringify(user))
                 localStorage.setItem('auth', JSON.stringify(auth));
-                navigate('/');
+                toast.current.show({
+                    severity: 'success', 
+                    summary: 'Logging you in',
+                    detail: '', 
+                  });
+                setTimeout(()=>{
+                    navigate('/');
+                },1000)  
             } else {
-                navigate("/login");
+                toast.current.show({
+                    severity: 'error', // severity can be 'success', 'info', 'warn', or 'error'
+                    summary: 'Please try again after 2 seconds',
+                })
+                setTimeout(()=>{
+                    navigate("/login");
+                },2000)  
             }
         } catch (error) {
             console.error("Login failed:", error.response.data);
 
             // Show errors using Toast
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Login failed. Please check your credentials and try again.' });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: JSON.stringify(error.response.data.error) });
         }
     };
 

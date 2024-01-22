@@ -1,11 +1,12 @@
 import { Divider } from 'primereact/divider';
-import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import '../Signup/signup.css';
+
 
 export default function SignupPage() {
     const [email, setEmail] = useState('');
@@ -16,6 +17,13 @@ export default function SignupPage() {
     const Navigate = useNavigate();
     const toast = useRef(null);
 
+    useEffect(() => {
+        const token = localStorage.getItem('auth');
+        if (token) {
+            Navigate('/');
+        }
+    }, []);
+
     const handleSignUp = async () => {
         try {
             const config = {
@@ -23,27 +31,28 @@ export default function SignupPage() {
                     'Content-Type': 'application/json'
                 }
             };
-            const response = await axios.post('http://localhost:3000/api/v1/user/signup', {
+            await axios.post('http://localhost:3000/api/v1/user/signup', {
                 email,
                 firstName,
                 lastName,
                 password
             }, config);
 
-            // Handle success
-            console.log('Signup successful:', response.data);
+            toast.current.show({
+                severity: 'success',
+                summary: 'Your Account has been created successfully. You will be redirected to the login page.'
+            });
 
-            // Redirect to login page after successful signup
-            Navigate('/login');
+            setTimeout(() => {
+                Navigate('/login');
+            }, 1000);
+
         } catch (error) {
-            // Handle error
             console.error('Signup failed:', error.response.data);
 
-            // Set errors in state
             setErrors(error.response.data.errors || []);
 
-            // Show errors using Toast
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Signup failed. Please check the form and try again.' });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: JSON.stringify(error.response.data.error) });
         }
     };
 
@@ -77,12 +86,13 @@ export default function SignupPage() {
                 <div className="login-section">
                     <Button label="Login" icon="pi pi-user" className="p-button-secondary" onClick={() => Navigate('/login')} />
                 </div>
+                <div className="back-to-welcome">
+                    <Link to="/" className="back-link">Back to Welcome Page</Link>
+                </div>
             </div>
 
-            {/* Toast component for displaying errors */}
             <Toast ref={toast} />
 
-            {/* Display individual error messages */}
             {errors.length > 0 && (
                 <div className="p-grid">
                     <div className="p-col-12">
