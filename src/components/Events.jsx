@@ -41,6 +41,8 @@ const Events = () => {
       setEventIds(eventIdsSet);
 
       console.log(eventIdsSet);
+
+      localStorage.setItem("registeredUser", JSON.stringify(eventIdsArray));
       console.log('Event IDs Set:', eventIdsSet);
     } catch (error) {
       console.error('Error:', error.message);
