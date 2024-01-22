@@ -87,7 +87,7 @@ export default function SignupPage() {
                     <Button label="Login" icon="pi pi-user" className="p-button-secondary" onClick={() => Navigate('/login')} />
                 </div>
                 <div className="back-to-welcome">
-                    <Link to="/" className="back-link">Back to Welcome Page</Link>
+                    <Link to="/welcome" className="back-link">Back to Welcome Page</Link>
                 </div>
             </div>
 

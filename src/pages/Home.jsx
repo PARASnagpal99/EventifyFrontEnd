@@ -1,8 +1,18 @@
 import { useContext, useEffect } from "react";
 import AppLayout from "../components/AppLayout";
 import ContextProvider from "../context/ContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const Navigate = useNavigate() ;
+  useEffect(()=>{
+     const token = localStorage.getItem("auth");
+     if(!token){
+       Navigate("/welcome");
+     }
+  },[])
+
+
   const { city, interest, setEventData, setIsloading } = useContext(ContextProvider);
 
   const fetchDataByCity = async (city) => {

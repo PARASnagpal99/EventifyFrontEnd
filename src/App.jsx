@@ -47,7 +47,6 @@ function App() {
           <BrowserRouter>
             {auth && <NavBar />}
             <Routes>
-              <Route path="/welcome" element={<WelcomePage />} />
               <Route element={<PrivateComponent />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
@@ -55,6 +54,7 @@ function App() {
                 <Route path="/event/register/:event_id" element={<SingleEvent />} />
                 <Route path="*" element={<PageNotFound />} />
               </Route>
+                <Route path="/welcome" element={<WelcomePage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/login" element={<LoginPage />} />
             </Routes>

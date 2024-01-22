@@ -1,6 +1,6 @@
 import { Divider } from 'primereact/divider';
 import { useState, useRef , useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,  Link } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
@@ -99,6 +99,9 @@ export default function LoginPage() {
                 </div>
                 <div className="signup-section">
                     <Button label="Sign Up" icon="pi pi-user-plus" className="p-button-secondary" onClick={handleSignUpClick} />
+                </div>
+                <div className="back-to-welcome">
+                 <Link to="/welcome" className="back-link">Back to Welcome Page</Link>
                 </div>
             </div>
 
