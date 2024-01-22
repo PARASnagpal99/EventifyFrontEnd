@@ -28,6 +28,7 @@ const Events = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
         },
       });
   

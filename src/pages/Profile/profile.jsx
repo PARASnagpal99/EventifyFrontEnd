@@ -107,7 +107,7 @@ export default function ProfilePage() {
     } catch (error) {
       console.error("Error unregistering from event:", error.response.data);
       toast.error('Error unregistering from the event!', {
-        position: 'bottom-right',
+        position: 'top-right',
         autoClose: 3000, // Set the duration for the toast
         hideProgressBar: false,
         closeOnClick: true,
