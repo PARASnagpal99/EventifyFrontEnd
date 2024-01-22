@@ -1,5 +1,5 @@
 // Import necessary libraries
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
@@ -98,7 +98,11 @@ const SingleEvent = () => {
 
   const getFriend = async ()=>{
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/user/getUserFriends/${userId}`);
+      const response = await fetch(`http://localhost:3000/api/v1/user/getUserFriends/${userId}`,{
+         headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
+      }});
       const result = await response.json();
       console.log(result);
   
@@ -200,12 +204,12 @@ const SingleEvent = () => {
     try {
       const friendId = user.userId; 
       const name = user.name; 
-      console.log(friendId,name);
-  
+      //console.log(friendId,name);
       const response = await fetch(`http://localhost:3000/api/v1/user/addFriend/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
         },
         body: JSON.stringify({ friendId, name }),
       });
@@ -227,9 +231,6 @@ const SingleEvent = () => {
       console.error('Error:', error.message);
     }
   };
-
-  
-  
 
   if (isLoading) {
     return <Spinner />;
