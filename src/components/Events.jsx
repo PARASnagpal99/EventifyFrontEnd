@@ -42,6 +42,7 @@ const Events = () => {
       // Update the state with the new event IDs
       setEventIds(eventIdsSet);
       console.log(eventIdsSet);
+      localStorage.setItem("registeredUser", JSON.stringify(eventIdsArray));
       // Optionally log or use the eventIdsSet
       console.log('Event IDs Set:', eventIdsSet);
     } catch (error) {
