@@ -4,6 +4,7 @@ import EventCard from "./EventCard";
 import Spinner from "./Spinner";
 
 import ContextProvider from "../context/ContextProvider";
+import InterestIdMappingInterest from "../utils/interest";
 
 // const CenteredContainer = styled.div`
 //   display: flex;
@@ -69,9 +70,9 @@ const Events = () => {
             event_id = {item.event_id}
             avatarSrc="path/to/avatar.jpg"
             title={item.event_name}
-            description={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Event ${item.event_description}`}
-            onRegisterClick={() => alert(`Register clicked for Event ${item}!`)}
+            description={item.event_description}
             isRegister={eventIds.has(item.event_id)}
+            categoryId = {InterestIdMappingInterest[item.category_id]}
           />
         ))}
       </EventsContainer>

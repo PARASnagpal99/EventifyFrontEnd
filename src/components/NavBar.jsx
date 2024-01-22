@@ -188,39 +188,36 @@ const NavBar = () => {
     }
   };
 
-  // if (searchTerm.trim() !== "") {
-  //   fetchSearchResults();
-  // } else {
-  //   setSearchResults([]);
-  // }
+
+  const fetchInterest = async () => {
+    const userId = JSON.parse(localStorage.getItem("user")).userId;
+    console.log(userId)
+    const response = await fetch(
+      `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("auth")
+          )}`,
+        },
+      }
+    );
+    const interests = await response.json();
+    console.log(interests);
+    const interestArray = [];
+
+    for (let i = 0; i < interests.length; i++) {
+      interestArray.push({ name: interests[i] });
+    }
+    setUserInterest(interestArray);
+    localStorage.setItem("userInterest", JSON.stringify(interestArray));
+  };
 
   useEffect(() => {
-    const fetchInterest = async () => {
-      const userId = JSON.parse(localStorage.getItem("user")).userId;
-      console.log(userId)
-      const response = await fetch(
-        `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("auth")
-            )}`,
-          },
-        }
-      );
-      const interests = await response.json();
-      console.log(interests);
-      const interestArray = [];
-
-      for (let i = 0; i < interests.length; i++) {
-        interestArray.push({ name: interests[i] });
-      }
-      setUserInterest(interestArray);
-      localStorage.setItem("userInterest", JSON.stringify(interestArray));
-    };
-
-    const auth = JSON.parse(localStorage.getItem("auth"));
-    auth && fetchInterest();
+    fetchInterest();
+    setTimeout(()=>{
+      fetchInterest(); 
+    },6000)
   }, []);
 
   return (
