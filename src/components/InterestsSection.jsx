@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
+import {  } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
@@ -167,33 +167,31 @@ const InterestsSection = () => {
       </div>
 
       <div className="interests-container">
-        {userInterests && userInterests.length > 0 ? (
-          userInterests.map((interest) => (
-            <Card
-              key={interest}
-              className="p-card-custom p-mb-3 p-mr-3"
-              header={
-                <div className="card-header">
-                  <Button
-                    icon="pi pi-times"
-                    className="p-button-rounded p-button-danger"
-                    tooltip="Remove Interest"
-                    tooltipOptions={{ position: 'top' }}
-                    onClick={() => removeInterest(interest)}
-                  />
-                </div>
-              }
-            >
-              <div className="card-content">
-                <h2 className="card-title">{interest}</h2>
+      {userInterests && userInterests.length > 0 ? (
+        <>
+          {userInterests.map((interest, index) => (
+            <div key={interest} className={`p-mr-2 p-mb-2 ${index > 4 ? 'p-ml-auto' : ''}`}>
+              <div className="p-button-group">
+                <Button
+                  label={interest}
+                  className="p-button-outlined p-button-secondary"
+                  onClick={() => removeInterest(interest)}
+                />
+                <Button
+                  icon="pi pi-times"
+                  className="p-button-rounded p-button-danger"
+                  onClick={() => removeInterest(interest)}
+                />
               </div>
-            </Card>
-          ))
-        ) : (
-          <h1>No Interests Added Yet</h1>
-        )}
-      </div>
-
+            </div>
+          ))}
+        </>
+      ) : (
+        <h1>No Interests Added Yet</h1>
+      )}
+    </div>
+    
+           
       <Toast ref={toast} />
     </div>
   );

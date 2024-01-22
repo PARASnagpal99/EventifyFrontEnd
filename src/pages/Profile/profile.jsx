@@ -16,7 +16,7 @@ export default function ProfilePage() {
     lastName: "",
   });
   const [events, setEvents] = useState([]);
-  console.log(events);
+  //console.log(events);
   const navigate = useNavigate();
   const navigateToSettings = () => {
     navigate("/setting");

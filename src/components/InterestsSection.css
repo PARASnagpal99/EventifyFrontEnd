@@ -40,9 +40,24 @@
     margin-left: 10px;
 }
 
-.interests-container {
+/* .interests-container {
     display: flex;
     flex-wrap: wrap;
+}
+ */
+ .interests-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.p-ml-auto {
+    margin-left: auto;
+}
+
+/* Add some margin between items */
+.p-mr-2,
+.p-ml-auto {
+    margin-bottom: 8px;
 }
 
 .p-button-rounded {
@@ -80,3 +95,4 @@
 .card-content .p-mr-2 {
     font-size: 1.5rem; /* Adjust the icon size */
 }
+
