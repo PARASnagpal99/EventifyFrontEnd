@@ -4,7 +4,6 @@ import axios from 'axios';
 import { toast , ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 // Styled Components
 const SettingsContainer = styled.div`
   max-width: 600px;
@@ -44,7 +43,6 @@ const Button = styled.button`
 `;
 
 const Setting = () => {
-
   const [name, setName] = useState(JSON.parse(localStorage.getItem('user')).firstName + ' ' + JSON.parse(localStorage.getItem('user')).lastName);
   const [email, setEmail] = useState(JSON.parse(localStorage.getItem('user')).email);
   const [currentPassword, setCurrentPassword] = useState('');
@@ -79,19 +77,11 @@ const Setting = () => {
       );
   
       const { message } = response.data;
-      //console.log(message);
       toast.success(message);
-      //console.log('Changes saved!');
-      //navigate('/');
     } catch (error) {
       console.error("Error Changing the password ", error.response.data);
       toast.error("Error changing password");
     }
-  };
-  
-  const handleDeleteAccount = () => {
-    // Add logic to delete user account (e.g., make API calls)
-    console.log('Account deleted!');
   };
 
   return (
@@ -117,11 +107,6 @@ const Setting = () => {
       </FormGroup>
       <Button onClick={handleSaveChanges}>Save Changes</Button>
 
-      <SectionTitle>Delete Account</SectionTitle>
-      <p>Once you delete your account, all your data will be lost. This action cannot be undone.</p>
-      <Button onClick={handleDeleteAccount} style={{ backgroundColor: '#f44336' }}>
-        Delete Account
-      </Button>
       <ToastContainer/>
     </SettingsContainer>
   );

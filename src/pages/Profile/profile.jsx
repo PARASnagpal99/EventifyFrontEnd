@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Card  } from "primereact/card";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FriendsSection from "../../components/FriendsSection";
 
 
 export default function ProfilePage() {
@@ -153,7 +154,10 @@ export default function ProfilePage() {
         <Button label="Change Account Details" onClick={navigateToSettings} />
       </div>
 
-      <InterestsSection />
+  
+      <InterestsSection/>
+      <FriendsSection/>
+
 
       <div className="events-section">
     <h2>Registered Events</h2>
