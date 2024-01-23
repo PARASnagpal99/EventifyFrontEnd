@@ -133,7 +133,7 @@ const NavBar = () => {
 
   console.log(selectedCity, selectedInterest);
 
-  const {setCity, setInterest, setEventData } =
+  const {setCity, setInterest, setEventData,setIsloading } =
     useContext(ContextProvider);
 
   const clearFilter = () => {
@@ -141,6 +141,7 @@ const NavBar = () => {
     setInterest(null);
     setSelectedCity(null);
     setSelectedInterest(null);
+    setIsloading(true);
   };
 
   const handleAvatarClick = () => {
