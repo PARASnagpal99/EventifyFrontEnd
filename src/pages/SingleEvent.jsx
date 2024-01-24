@@ -1,6 +1,7 @@
 // Import necessary libraries
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef} from "react";
 import { useParams } from "react-router-dom";
+import { Toast } from 'primereact/toast';
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
 import { Button } from "primereact/button";
@@ -67,6 +68,7 @@ const SingleEvent = () => {
 
   // const { isRegister, setIsRegister } = useContext(ContextProvider);
   const [isregister, setIsRegister] = useState(false);
+  const toast = useRef(null);
   console.log(isregister);
   // console.log("IsRegister: " + isRegister);
 
@@ -190,7 +192,11 @@ const SingleEvent = () => {
     );
     const result = await response.json();
     console.log(result);
-    alert("Registration done");
+    toast.current.show({
+      severity: "success",
+      summary: "Succss in registration for event ",
+      detail: "Registered Successfully",
+    })
     const storedValues = JSON.parse(localStorage.getItem("registeredUser")) || [];
 
     const newValue = event_id;
@@ -218,13 +224,21 @@ const SingleEvent = () => {
   
       const result = await response.json();
   
-      if (response.ok && response.message=="Success") {
+      if (result.message=="Success") {
         console.log('Friend added successfully');
-        alert('Friend added successfully');
-        // Handle any additional logic here
-      } else {
+        // alert('Friend added successfully');
+        toast.current.show({
+            severity : "success" ,
+            summary : "Friend Added successfully" ,
+        })
+      } 
+      else {
         console.error('Error adding friend:', result.error);
         alert(result.message);
+        toast.current.show({
+          severity : "error" ,
+          summary : "Error in Adding Friend" ,
+      })
         // Handle error accordingly
       }
       setChange(!change);
@@ -284,6 +298,7 @@ const SingleEvent = () => {
           )}
         </UserListContainer>
       </PageContainer>
+      <Toast ref={toast} />
     </Container>
   );
 };

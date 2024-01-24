@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef , useContext } from 'react';
 import { Button } from 'primereact/button';
 import {  } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
+import ContextProvider from '../context/ContextProvider';
 
 import '../components/InterestsSection.css'; 
 
@@ -25,6 +26,7 @@ const InterestsSection = () => {
   const [selectedInterest, setSelectedInterest] = useState(null);
   const userId = JSON.parse(localStorage.getItem('user')).userId;
   const toast = useRef(null);
+  const {interestChange,setInterestChange} = useContext(ContextProvider);
 
   useEffect(() => {
     fetchUserInterests();
@@ -41,6 +43,7 @@ const InterestsSection = () => {
         },
       });
       setUserInterests(response.data || []);
+      setInterestChange(!interestChange);
     } catch (error) {
       console.error('Error fetching user interests:', error);
     }
@@ -68,7 +71,7 @@ const InterestsSection = () => {
 
       if (response.status === 200) {
         fetchUserInterests();
-
+        
         toast.current.show({
           severity: 'success',
           summary: 'Interest Added',
@@ -84,7 +87,7 @@ const InterestsSection = () => {
           life: 3000,
         });
       } else {
-        console.log("Interest already exists222222")
+        console.log("Interest already exists")
         console.error('Error adding interest. API response:', response.data);
         toast.current.show({
           severity: 'error',

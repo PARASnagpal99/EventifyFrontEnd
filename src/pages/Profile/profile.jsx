@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect  } from "react";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -61,7 +61,6 @@ export default function ProfilePage() {
   
   useEffect(() => {
     fetchData();
-
     const intervalId = setInterval(() => {
       fetchData(); 
     }, 60000); 

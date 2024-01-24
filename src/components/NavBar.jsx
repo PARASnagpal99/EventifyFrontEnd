@@ -129,11 +129,11 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPageUrl = location.pathname + location.search;
-  console.log(currentPageUrl);
+  //console.log(currentPageUrl);
 
-  console.log(selectedCity, selectedInterest);
+  //console.log(selectedCity, selectedInterest);
 
-  const {setCity, setInterest, setEventData,setIsloading } =
+  const {setCity, setInterest, setEventData,setIsloading , interestChange} =
     useContext(ContextProvider);
 
   const clearFilter = () => {
@@ -192,7 +192,7 @@ const NavBar = () => {
 
   const fetchInterest = async () => {
     const userId = JSON.parse(localStorage.getItem("user")).userId;
-    console.log(userId)
+    //console.log(userId)
     const response = await fetch(
       `http://localhost:3000/api/v1/user/userInterest/${userId}`,{
         headers: {
@@ -213,6 +213,10 @@ const NavBar = () => {
     setUserInterest(interestArray);
     localStorage.setItem("userInterest", JSON.stringify(interestArray));
   };
+
+  useEffect(()=>{
+      fetchInterest() ;
+  },[interestChange])
 
   useEffect(() => {
     fetchInterest();

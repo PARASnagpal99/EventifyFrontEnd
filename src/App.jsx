@@ -25,6 +25,7 @@ function App() {
   const [eventData, setEventData] = useState([]);
   const [isLoading, setIsloading] = useState(true);
   const [isRegister,setIsRegister] = useState(true);
+  const [interestChange,setInterestChange] = useState(false) ;
   const auth = localStorage.getItem("auth");
 
   return (
@@ -41,6 +42,8 @@ function App() {
           setIsloading,
           isRegister,
           setIsRegister,
+          interestChange , 
+          setInterestChange,
         }}
       >
         <PrimeReactProvider>
