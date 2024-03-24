@@ -18,6 +18,10 @@ import 'primeicons/primeicons.css';
 import NavBar from "./components/NavBar";
 import { useState } from "react";
 import WelcomePage from "./pages/Welcome";
+import AdminSignupPage from "./pages/AdminSignup/adminSignup";
+import AdminLoginPage from "./pages/AdminLogin/adminLogin";
+import AdminDashboard from "./pages/AdminDashboard/adminDasboard";
+
 
 function App() {
   const [city, setCity] = useState(null);
@@ -52,6 +56,7 @@ function App() {
             <Routes>
               <Route element={<PrivateComponent />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/adminDashboard" element={<AdminDashboard/>}/>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/setting" element={<Setting />} />
                 <Route path="/event/register/:event_id" element={<SingleEvent />} />
@@ -60,6 +65,8 @@ function App() {
                 <Route path="/welcome" element={<WelcomePage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/admin/signup" element={<AdminSignupPage/>}/>
+                <Route path="/admin/login" element={<AdminLoginPage/>}/>
             </Routes>
           </BrowserRouter>
         </PrimeReactProvider>

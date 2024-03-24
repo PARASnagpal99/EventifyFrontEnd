@@ -39,7 +39,10 @@ const WelcomeText = styled.p`
 
 const WelcomeLinks = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 20px;
+  border-right: 1px solid #ccc; /* Add border between admin and user links */
+  padding-right: 20px; /* Add padding to separate links from border */
 `;
 
 const WelcomeLink = styled(Link)`
@@ -77,8 +80,16 @@ const WelcomePage = () => {
           Discover exciting events and connect with people who share your interests.
         </WelcomeText>
         <WelcomeLinks>
-          <WelcomeLink to="/login">Login</WelcomeLink>
-          <WelcomeLink to="/signup">Signup</WelcomeLink>
+          <div>
+            <h2>User</h2>
+            <WelcomeLink to="/login">Login</WelcomeLink>
+            <WelcomeLink to="/signup">Signup</WelcomeLink>
+          </div>
+          <div>
+            <h2>Admin</h2>
+            <WelcomeLink to="/admin/login">Login</WelcomeLink>
+            <WelcomeLink to="/admin/signup">Signup</WelcomeLink>
+          </div>
         </WelcomeLinks>
       </RightColumn>
     </WelcomeContainer>

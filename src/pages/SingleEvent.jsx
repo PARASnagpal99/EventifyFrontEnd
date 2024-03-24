@@ -258,7 +258,7 @@ const SingleEvent = () => {
         {/* Left Side */}
         <CardContainer>
           <img
-            src={event.imageUrl}
+            src={event.image_s3_url}
             alt="Card"
             style={{ width: "400px", height: "250px" }}
           />

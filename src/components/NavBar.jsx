@@ -265,7 +265,7 @@ const NavBar = () => {
               <Link to="/setting" onClick={()=>{setShowMenu(!showMenu)}} >Settings</Link>
             </li>
             <li>
-              <Link onClick={logout} to="/login">
+              <Link onClick={logout} to="/welcome">
                 Logout
               </Link>
             </li>
