@@ -62,6 +62,7 @@ const Events = () => {
     return <Spinner />
   }
 
+  console.log(eventData);
   return (
       <EventsContainer>
         {eventData.map((item) => (

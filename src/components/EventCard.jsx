@@ -52,7 +52,7 @@ const RegisterButton = styled(Button)`
   margin-left: auto;
 `;
 
-const EventCard = ({ event_id, avatarSrc, title, description,isRegister,categoryId }) => {
+const EventCard = ({ event_id, avatarSrc , title, description , isRegister , categoryId , created_by}) => {
   const navigate = useNavigate();
   const {setIsRegister} = useContext(ContextProvider);
 

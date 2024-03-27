@@ -248,6 +248,21 @@ const SingleEvent = () => {
     }
   };
 
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false, 
+        timeZone: 'Asia/Kolkata'
+    };
+    return date.toLocaleString('en-US', options);
+}
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -265,9 +280,11 @@ const SingleEvent = () => {
           <h2>{event.event_name}</h2>
           <hr/>
           <p>{event.event_description}</p>
+          <p>Be Ready for the Event , Its Scheduled from {formatDate(event.start.local)} to {formatDate(event.start.local)}</p>
           <hr/>
           <h2>Interest: {InterestIdMappingInterest[event.category_id]}</h2>
           <hr/>
+          <h3>For Further Information Mail : {event.created_by}</h3>
           <div className="card flex justify-content-center">
             <Button
               label={isregister ? "Already Registered" : "Register"}

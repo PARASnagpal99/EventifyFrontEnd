@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const AdminDashboardContainer = styled.div`
@@ -79,6 +80,7 @@ const AdminDashboard = () => {
   const [selectedVenue, setSelectedVenue] = useState('');
   const [imageS3Key , setImageS3Key] = useState('');
   const [error, setError] = useState('');
+  const Navigate = useNavigate();
 
   // Dummy data for dropdowns
   const categories = [
@@ -117,7 +119,12 @@ const AdminDashboard = () => {
     return true;
   };
  
+  const userRole = JSON.parse(localStorage.getItem('user')).role ;
+
   useEffect(()=>{
+     if(userRole != 'admin'){
+        Navigate('/');
+     }
      localStorage.removeItem('eventImage');
   },[])
 
@@ -148,36 +155,31 @@ const AdminDashboard = () => {
               venue_id: selectedVenue,
               image_s3_key : imageS3Key, 
               currency : 'USD' ,
-              created_by : localStorage.getItem('user').email
+              created_by : JSON.parse(localStorage.getItem('user')).email ,
             };
             const config = {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    authorization: `Bearer ${JSON.parse(localStorage.getItem("auth"))}`,
+                    'X-User-Role' : userRole ,
                 }
             };
-           console.log(payload);
            const URL =  "http://localhost:3000/api/v1/admin/createEvent";
            const response = await axios.post(URL,payload,config);
            toast.success('Your Event has been created Successfully!');
-           console.log("Event Details" , response.data);
            resetFields();
-           //console.log(response);
          }catch(error){
             console.error('Error Creating Event:', error);
-            toast.error('Failed to Create Event');
+            toast.error('Failed to Create Event , Please fill all the fields correctly');
         }
-   
-    // Make API call with payload
-
-    console.log(payload);
   };
 
 
   const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+      const file = e.target.files[0];
+      const reader = new FileReader();
   
-    reader.onload = async(event) => {
+      reader.onload = async(event) => {
       const imageDataUrl = event.target.result;
       localStorage.setItem('eventImage', imageDataUrl);
       try{
@@ -196,7 +198,6 @@ const AdminDashboard = () => {
         toast.error('Failed to upload image');
       }
     };
-
     reader.readAsDataURL(file);
   };
   
